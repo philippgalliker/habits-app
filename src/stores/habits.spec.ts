@@ -44,7 +44,7 @@ describe('useHabitsStore', () => {
   it('minutesToday sums only entries dated today', () => {
     const habits = useHabitsStore()
     // Seed has two entries today: Kung Fu 60 + Meditation 10 = 70.
-    expect(habits.minutesToday).toBe(999)
+    expect(habits.minutesToday).toBe(70)
 
     habits.addEntry({ category: 'Meditation', minutes: 5, date: dayOffset(0) })
     expect(habits.minutesToday).toBe(75)
