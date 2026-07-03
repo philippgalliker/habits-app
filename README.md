@@ -2,6 +2,12 @@
 
 This template should help get you started developing with Vue 3 in Vite.
 
+## Git Workflow
+
+This repo follows **trunk-based development** — every change goes through a short-lived
+branch and a CI-gated pull request; `main` is protected. Step-by-step guide:
+[docs/git-workflow.md](docs/git-workflow.md)
+
 ## Recommended IDE Setup
 
 [VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
@@ -61,13 +67,14 @@ npm run test:e2e
 # Runs the tests only on Chromium
 npm run test:e2e -- --project=chromium
 # Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
+npm run test:e2e -- e2e/vue.spec.ts
 # Runs the tests in debug mode
 npm run test:e2e -- --debug
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Lint with [Oxlint](https://oxc.rs/) and [ESLint](https://eslint.org/)
 
 ```sh
+# Runs oxlint first, then ESLint, both in auto-fix mode
 npm run lint
 ```
