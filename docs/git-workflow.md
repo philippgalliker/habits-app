@@ -40,15 +40,15 @@ specification. The PR title becomes the squash commit on `main`, so the title fo
 <type>(<optional scope>): <short description in imperative mood>
 ```
 
-| Example | Use for |
-| --- | --- |
-| `feat: add entry editing` | new functionality |
-| `fix: round minutes correctly in daily sum` | bug fixes |
-| `chore: update vitest to v4` | tooling, config, dependencies |
-| `docs: add trunk-based workflow guide` | documentation only |
-| `test: cover entriesByDay edge cases` | tests only |
-| `refactor: extract date helpers` | no behavior change |
-| `ci: add e2e job to pipeline` | CI/CD changes |
+| Example                                     | Use for                       |
+| ------------------------------------------- | ----------------------------- |
+| `feat: add entry editing`                   | new functionality             |
+| `fix: round minutes correctly in daily sum` | bug fixes                     |
+| `chore: update vitest to v4`                | tooling, config, dependencies |
+| `docs: add trunk-based workflow guide`      | documentation only            |
+| `test: cover entriesByDay edge cases`       | tests only                    |
+| `refactor: extract date helpers`            | no behavior change            |
+| `ci: add e2e job to pipeline`               | CI/CD changes                 |
 
 - Scope is optional: `feat(store): add entry editing`.
 - Breaking change: append `!` — `feat!: change storage format`.
@@ -87,14 +87,29 @@ git push -u origin feat/my-change
 # 5. Open a pull request (or use the link GitHub prints after the push)
 gh pr create --fill
 
-# 6. Wait for the CI check to turn green.
+# 6. Watch the CI check — exits when all checks are done
+gh pr checks --watch
 #    Red? Fix locally, commit, push — the check reruns automatically.
+#    Debug a failure:
+     gh run list --limit 5                # find the run ID of the failed run
+     gh run view <run-id> --log-failed    # logs of only the failed steps
 
-# 7. Merge on GitHub: "Squash and merge".
-#    The PR title becomes the commit message on main — Conventional Commits
-#    format, e.g. "feat: add entry editing" (see "PR titles" above).
+# 7. Squash-merge. The PR title becomes the commit message on main —
+#    Conventional Commits format, e.g. "feat: add entry editing" (see above).
+gh pr merge --squash --delete-branch
+#    --squash selects the merge method so gh doesn't prompt for it
+#    (squash is the only method this repo allows anyway — see below).
+#    --delete-branch removes the remote AND local branch and switches
+#    you back to main.
 
-# 8. Clean up locally
+# 8. Update your local main
+git pull
+```
+
+Merging via the GitHub UI ("Squash and merge" button) is equivalent. If you do,
+clean up locally with:
+
+```sh
 git switch main
 git pull
 git branch -D feat/my-change
